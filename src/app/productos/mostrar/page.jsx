@@ -55,7 +55,7 @@ export default async function Prods() {
                 </tbody>
             </table>
             <div className="boton-centro">
-                <Link href="/usuarios/nuevo" legacyBehavior>
+                <Link href="/productos/nuevo" legacyBehavior>
                     <a className="btn btn-primary">Nuevo Producto</a>
                 </Link>
             </div>

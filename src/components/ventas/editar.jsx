@@ -1,8 +1,8 @@
 'use client'
 import Link from "next/link";
-import axios from "axios";
-export default function EditarProductos({id}){    
-    return(
-        <Link href={`/ventas/editar/${id}`}>editar</Link>
+
+export default function EditarVenta({ idVenta, idProd }) {
+    return (
+        <Link href={`/ventas/editar/${idVenta}?idprod=${idProd}`}>Editar</Link>
     );
 }

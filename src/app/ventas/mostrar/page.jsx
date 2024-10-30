@@ -66,7 +66,7 @@ export default async function Ventas() {
                             <td>{venta.fecha}</td>
                             <td>{venta.hora}</td>
                             <td>
-                                <EditarVenta id={venta.id} />
+                                <EditarVenta idVenta={venta.id} idProd={venta.idprod} />
                             </td>
                             <td>
                                 <BorrarVenta id={venta.id} />
@@ -75,6 +75,11 @@ export default async function Ventas() {
                     ))}
                 </tbody>
             </table>
+            <div className="boton-centro">
+                <Link href="/ventas/nuevo" legacyBehavior>
+                    <a className="btn btn-primary">Nueva Venta</a>
+                </Link>
+            </div>
         </div>
     );
 }

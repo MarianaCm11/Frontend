@@ -1,35 +1,53 @@
-'use client'
+'use client';
 import axios from "axios";
-async function nuevoUsuario(e){
-    e.preventDefault();
-    //console.log("Estas en nuevo usu");
-    const url="http://localhost:3000/usus/nuevoUsuario";
-    const datos={
-        nombre:document.getElementById("nombre").value,
-        usuario:document.getElementById("usuario").value,
-        password:document.getElementById("password").value
 
+async function nuevaVenta(e) {
+    e.preventDefault();
+    const url = "http://localhost:3000/ventas/nuevaVenta";
+
+    // Obtener datos del formulario
+    const cantidad = document.getElementById("cantidad").value;
+    const nombreProducto = document.getElementById("nombreprod").value;
+    const nombreUsuario = document.getElementById("nombreusu").value;
+
+    // Hacer una petición al backend para obtener los IDs
+    const usuarioResponse = await axios.get(`http://localhost:3000/usuarios/buscarPorNombre/${nombreUsuario}`);
+    const productoResponse = await axios.get(`http://localhost:3000/productos/buscarPorNombre/${nombreProducto}`);
+
+    // Verificar si los usuarios y productos fueron encontrados
+    if (!usuarioResponse.data || !productoResponse.data) {
+        alert("Usuario o producto no encontrado.");
+        return;
     }
-   // console.log(datos); 
-   const respuesta=await axios.post(url,datos);
-   //console.log(respuesta.data);
-   location.replace("http://localhost:3001/usuarios/mostrar");
-};
+
+    const idusu = usuarioResponse.data.id; // Suponiendo que el ID se devuelve así
+    const idprod = productoResponse.data.id; // Suponiendo que el ID se devuelve así
+
+    const datos = {
+        cantidad,
+        idprod,
+        idusu
+    };
+
+    const respuesta = await axios.post(url, datos);
+    window.location.replace("/ventas/mostrar");
+}
+
 export default function Nuevo() {
-    return(
+    return (
         <div className="m-0 row justify-content-center">
-            <form className="col-6 mt-5" onSubmit={nuevoUsuario} action="" method="post">
+            <form className="col-6 mt-5" onSubmit={nuevaVenta}>
                 <div className="card">
                     <div className="card-header">
-                        <h1>Nuevo Usuario</h1>
+                        <h1>Nueva Venta</h1>
                     </div>
                     <div className="card-body">
-                        <input id="nombre" placeholder="Nombre" autoFocus className="form-control mb-3" type="text" />
-                        <input id="usuario" placeholder="Usuario" className="form-control mb-3" type="text" />
-                        <input id="password" placeholder="Password" className="form-control mb-3" type="text" />
+                        <input id="cantidad" placeholder="Cantidad" autoFocus className="form-control mb-3" type="text" />
+                        <input id="nombreprod" placeholder="Nombre del producto" className="form-control mb-3" type="text" />
+                        <input id="nombreusu" placeholder="Nombre del usuario" className="form-control mb-3" type="text" />
                     </div>
                     <div className="card-footer">
-                        <button className="btn btn-danger col-12 mt-3 mb-3" type="submit">Guardar usuario</button>
+                        <button className="btn btn-danger col-12 mt-3 mb-3" type="submit">Guardar venta</button>
                     </div>
                 </div>
             </form>
